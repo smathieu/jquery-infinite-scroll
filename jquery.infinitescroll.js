@@ -86,10 +86,14 @@
                 }
             });
                         
-            $(settings.search_field).keyup(function(e) {
+
+            function search() {
               settings.force = true;
               infinityRunner();
-            });
+            }
+
+            $(settings.search_field).keyup(search);
+            $(settings.search_field).click(search);
 
             // Test initial page layout for trigger
             infinityRunner();
