@@ -35,8 +35,9 @@
                         if (search_field.length == 1 && search_field.val().length > 0) {
                           var search_s = search_field.val();
 
-                          if (search_s == last_search) {
-                            settings.page++;
+                          if (search_s != last_search) {
+                            settings.page = 1;
+                            $(settings.container).html("");
                           }
                           last_search = search_s;
                           params['search_string'] = search_s;
@@ -52,11 +53,6 @@
                         params.page = settings.page
 
                         req = $.get(settings.url, params, function(data) {
-                            if (more_stuff) {
-                                more_stuff = false;
-                                infinityRunner();
-                                return;
-                            }
                             if (data.append) {
                                 $(settings.appendTo).append(data.append);
                                 settings.page++;
@@ -68,6 +64,10 @@
                             } else if (data.finish) {
                                 maxReached = true;
                                 $(settings.appendTo).trigger('infinitescroll.maxreached');
+                            }
+                            if (more_stuff) {
+                                more_stuff = false;
+                                infinityRunner();
                             }
                         }, 'json');
                     }
